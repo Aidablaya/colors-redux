@@ -3,6 +3,7 @@ export const INCREMENT_COUNT = 'INCREMENT_COUNT';
 export const DRAG_START = 'DRAG_START';
 export const DROP_TOP = 'DROP_TOP';
 export const DROP_BOT = 'DROP_BOT';
+export const DELETE_ITEM = 'DELETE_ITEM';
 
 export const addColor = (color) => ({
   type: ADD_COLOR,
@@ -27,4 +28,9 @@ export const dropTop = (item) => ({
 export const dropBot = (item) => ({
   type: DROP_BOT,
   payload: item,
+});
+
+export const deleteItem = (id, list) => ({
+  type: DELETE_ITEM,
+  payload: { id, list },
 });

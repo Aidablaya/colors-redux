@@ -6,6 +6,7 @@ import {
   dragStart,
   dropTop,
   dropBot,
+  deleteItem,
 } from './actions';
 import './App.css';
 
@@ -42,14 +43,19 @@ class App extends React.Component {
     this.props.dropBot({ color, count: parseInt(count) || 0 });
   };
 
+  handleRemoveFromBotList = (id) => {
+    this.props.deleteItem(id, 'botList');
+    console.log(id);
+  };
+  
   render() {
     return (
       <div className="App">
-        <header>
+        <header className='header'>
           <h1 className='title'>RANDOM COLOR</h1>
         </header>
         <main>
-          <button className='AddedColor' onClick={this.handleAddColor}>Agregar Color</button>
+          <button className='addedColor' onClick={this.handleAddColor}>+ COLOR</button>
           <ul className="listRandomColor">
             {this.props.colors.map((color) => {
               console.log('Color:', color); // Agrega este log para depurar
@@ -76,7 +82,7 @@ class App extends React.Component {
             onDrop={this.handleDropBot}
             onDragOver={(e) => e.preventDefault()}
           >
-            <ul>
+            <ul className='ulBoxDrop'>
               {' '}
               {/* Cambiado de div a ul */}
               {this.props.botList &&
@@ -91,21 +97,28 @@ class App extends React.Component {
                     }} /* Establecer el color de fondo según la propiedad color */
                   >
                     {`${item.color}`}
+                    
+                    <button className='deleteButton' onClick={() => this.handleRemoveFromBotList(item.id)}>X</button>
                   </li>
                 ))}
             </ul>
           </div>
+          <p className='storm'>🌩️</p>
         </main>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  colors: state.colors,
-  topList: state.topList,
-  botList: state.botList || [],
-});
+const mapStateToProps = (state) => {
+  console.log(state.botList);  
+
+  return {
+    colors: state.colors,
+    topList: state.topList,
+    botList: state.botList || [],
+  };
+};
 
 const mapDispatchToProps = {
   addColor,
@@ -113,6 +126,7 @@ const mapDispatchToProps = {
   dragStart,
   dropTop,
   dropBot,
+  deleteItem,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
